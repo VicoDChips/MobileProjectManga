@@ -9,7 +9,7 @@ import androidx.navigation3.runtime.NavKey
 fun HomeListPage(onItemClick: Any) {
     Column {
         Text(
-            text = "Hello HomeListPage"
+            text = "Hello Discover"
         )
     }
 }

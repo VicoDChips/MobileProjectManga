@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 fun ProfilePage() {
     Column {
         Text(
-            text = "Hello ProfilePage"
+            text = "Hello Profile"
         )
     }
 }

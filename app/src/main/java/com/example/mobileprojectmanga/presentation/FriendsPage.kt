@@ -5,10 +5,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SearchPage() {
+fun FriendsPage() {
     Column {
         Text(
-            text = "Hello SearchPage"
+            text = "Hello Friends"
         )
     }
 }

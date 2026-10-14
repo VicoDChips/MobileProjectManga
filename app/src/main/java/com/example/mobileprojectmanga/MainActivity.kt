@@ -19,20 +19,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.mobileprojectmanga.data.HomeDetail
-import com.example.mobileprojectmanga.data.HomeList
+import com.example.mobileprojectmanga.data.DiscoverScreen
+import com.example.mobileprojectmanga.data.FriendsScreen
 import com.example.mobileprojectmanga.data.ProfileScreen
-import com.example.mobileprojectmanga.data.SearchScreen
+import com.example.mobileprojectmanga.data.LibraryScreen
 import com.example.mobileprojectmanga.data.Tab
+import com.example.mobileprojectmanga.presentation.FriendsPage
 import com.example.mobileprojectmanga.presentation.HomeDetailPage
 import com.example.mobileprojectmanga.presentation.HomeListPage
 import com.example.mobileprojectmanga.presentation.ProfilePage
-import com.example.mobileprojectmanga.presentation.SearchPage
+import com.example.mobileprojectmanga.presentation.LibraryPage
 import com.example.mobileprojectmanga.ui.theme.MobileProjectMangaTheme
 
 class MainActivity : ComponentActivity() {
@@ -58,30 +61,40 @@ fun MangaAppMain() {
                     onClick = { selectedTab = Tab.HOME },
                     icon = {
                         Icon(
-                            painterResource(R.drawable.ic_action_name), contentDescription = null
+                            painterResource(R.drawable.compass), contentDescription = null
                         )
                     },
-                    label = { Text(text = "Acceuil") })
+                    label = { Text(text = "Découvrir") })
                 NavigationBarItem(
-                    selected = selectedTab == Tab.SEARCH,
-                    onClick = { selectedTab = Tab.SEARCH },
+                    selected = selectedTab == Tab.LIBRARY,
+                    onClick = { selectedTab = Tab.LIBRARY },
                     icon = {
                         Icon(
-                            painterResource(R.drawable.outline_feature_search_24),
+                            painterResource(R.drawable.book),
                             contentDescription = null
                         )
                     },
-                    label = { Text(text = "Recherche") })
+                    label = { Text(text = "Bibliothèque") })
+                NavigationBarItem(
+                    selected = selectedTab == Tab.FRIENDS,
+                    onClick = { selectedTab = Tab.FRIENDS },
+                    icon = {
+                        Icon(
+                            painterResource(R.drawable.friends),
+                            contentDescription = null
+                        )
+                    },
+                    label = { Text(text = "Amis") })
                 NavigationBarItem(
                     selected = selectedTab == Tab.PROFILE,
                     onClick = { selectedTab = Tab.PROFILE },
                     icon = {
                         Icon(
-                            painterResource(R.drawable.outline_account_circle_24),
+                            painterResource(R.drawable.profile),
                             contentDescription = null
                         )
                     },
-                    label = { Text(text = "Profile") })
+                    label = { Text(text = "Profil") })
             }
 
         })
@@ -90,19 +103,26 @@ fun MangaAppMain() {
     { padding ->
 
         val homeBackStack =
-            rememberNavBackStack(HomeList)
-        val searchBackStack =
-            rememberNavBackStack(SearchScreen)
+            rememberNavBackStack(DiscoverScreen)
+        val libraryBackStack =
+            rememberNavBackStack(LibraryScreen)
+        val friendsBackStack =
+            rememberNavBackStack(FriendsScreen)
         val profileBackStack =
             rememberNavBackStack(ProfileScreen)
 
 
-        Box(Modifier.padding(padding)) {
+        Box(Modifier.padding(horizontal = 8.dp, vertical = 40.dp)) {
             when (selectedTab) {
                 Tab.HOME -> HomeTabNavDisplay(homeBackStack)
-                Tab.SEARCH -> NavDisplay(
-                    backStack = searchBackStack, entryProvider = entryProvider {
-                        entry<SearchScreen> { SearchPage() }
+                Tab.LIBRARY -> NavDisplay(
+                    backStack = libraryBackStack, entryProvider = entryProvider {
+                        entry<LibraryScreen> { LibraryPage() }
+                    })
+
+                Tab.FRIENDS -> NavDisplay(
+                    backStack = friendsBackStack, entryProvider = entryProvider {
+                        entry<FriendsScreen> { FriendsPage() }
                     })
 
                 Tab.PROFILE -> NavDisplay(
@@ -120,7 +140,7 @@ fun HomeTabNavDisplay(backStack: NavBackStack<NavKey>){
         backStack=backStack,
         onBack = {backStack.removeLastOrNull()},
         entryProvider= entryProvider {
-            entry<HomeList>{
+            entry<DiscoverScreen>{
                 HomeListPage(
                     onItemClick={ id: String->backStack.add(HomeDetail(id)) }
                 )
