@@ -1,16 +1,15 @@
 package com.example.mobileprojectmanga.datasource.api
 
-import com.example.mobileprojectmanga.data.MangaCard
-import com.example.mobileprojectmanga.data.MangaCards
+import com.example.mobileprojectmanga.data.MangaResponse
 
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MangaService{
-    @GET("cards")
-    suspend fun getMangaCards(): MangaCards
-
-    @GET("cards/{id}")
-    suspend fun getCard(@Path("id") idCard: Int): MangaCard
+    @GET("data/")
+    suspend fun getMangaCards(
+        @Query("page") page: Int = 1,
+        @Query("page_size") pageSize: Int = 20
+    ): MangaResponse
 
 }
