@@ -9,8 +9,8 @@ import retrofit2.http.Query
 interface MangaService{
     @GET("data/")
     suspend fun getMangaCards(
-        @Query("page") page: Int = 1,
-        @Query("page_size") pageSize: Int = 20
+//        @Query("page") page: Int = 1,
+//        @Query("page_size") pageSize: Int = 20
     ): MangaResponse
 
     @GET("data/{id}")

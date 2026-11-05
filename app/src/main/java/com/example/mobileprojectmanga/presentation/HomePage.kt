@@ -2,6 +2,7 @@ package com.example.mobileprojectmanga.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,17 +30,20 @@ fun HomeListPage(onItemClick: Any,
             Text(
                 text = "Chargement en cours"
             )
+        }else{
+            val count=uiState.value.mangaList.count()
+            Text(
+                text = "Nombre de manga $count"
+            )
+            AppButton(
+                text = "Recharger les manga",
+                modifier = Modifier.padding(top=30.dp)
+            ){
+                homeViewModel.fetchCards()
+            }
         }
-        val count=uiState.value.mangaList.count()
-        Text(
-            text = "Nombre de manga $count"
-        )
     }
-    AppButton(
-        text = "Recharger les manga"
-    ){
-        homeViewModel.fetchCards()
-    }
+
 }
 
 @Composable
