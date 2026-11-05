@@ -4,6 +4,7 @@ import com.example.mobileprojectmanga.data.MangaCard
 import com.example.mobileprojectmanga.data.MangaResponse
 
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MangaService{
@@ -14,5 +15,5 @@ interface MangaService{
     ): MangaResponse
 
     @GET("data/{id}")
-    suspend fun getMangaDetail(id: Int): MangaCard
+    suspend fun getMangaDetail(@Path("id") id: Int): MangaCard
 }
