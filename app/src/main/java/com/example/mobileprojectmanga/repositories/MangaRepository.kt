@@ -8,11 +8,17 @@ object MangaRepository {
 
     val networkService = NetworkDataSource.mangaService
 
-    suspend fun getManga(): List<MangaCard>{
-        val cards = networkService.getMangaCards().data
-        Log.v("getManga", cards.toString())
-        // TODO Save in database
-        return cards
+    suspend fun getManga(): Result<List<MangaCard>>{
+        try {
+            val cards = networkService.getMangaCards().data
+            Log.v("getManga", cards.toString())
+            // TODO Save in database
+            return Result.success(cards)
+        }catch (e: Exception){
+            Log.e("getManga", e.toString())
+            return Result.failure(e)
+        }
+
     }
 
     suspend fun getMangaDetail(id: Int): MangaCard{
