@@ -20,12 +20,6 @@ class HomeViewModel(private val mangaRepository: MangaRepository = MangaReposito
             null))
     val uiState: StateFlow<HomeUIState> = _uiState.asStateFlow()
 
-//    private val _mangaList : MutableStateFlow<List<MangaCard>> = MutableStateFlow(listOf())
-//    val mangaList: StateFlow<List<MangaCard>> = _mangaList.asStateFlow()
-//
-//    private val _mangaDetail : MutableStateFlow<MangaCard?> = MutableStateFlow(null)
-//    val mangaDetail: StateFlow<MangaCard?> = _mangaDetail.asStateFlow()
-
     fun fetchMangaList(
         filter: Filter
     ){
@@ -52,18 +46,11 @@ class HomeViewModel(private val mangaRepository: MangaRepository = MangaReposito
                     _uiState.update{currentState ->
                         currentState.copy(
                             isLoading = false,
-                            error = error.localizedMessage
+                            error = "Les données sont indisponibles"
                         )
                     }
                 }
             )
-            //val testManga: List<MangaCard> = _manga.value
-//            _mangaList.update { manga }
-            // _manga.value=cards;
-
-
-
-
         }
 
 
@@ -74,12 +61,26 @@ class HomeViewModel(private val mangaRepository: MangaRepository = MangaReposito
             _uiState.update {currentState ->
                 currentState.copy(isLoading=true)
             }
-            val manga=mangaRepository.getMangaDetail(id)
-//            _mangaDetail.update { manga }
+            val result=mangaRepository.getMangaDetail(id)
 
-            _uiState.update {currentState ->
-                currentState.copy(mangaDetail = manga, mangaList = emptyList(), isLoading = false)
-            }
+            result.fold(
+                onSuccess = {manga ->
+                    _uiState.update {currentState ->
+                        currentState.copy(
+                            mangaDetail = manga,
+                            mangaList = emptyList(),
+                            isLoading = false)
+                    }
+                },
+                onFailure = {error ->
+                    _uiState.update{currentState ->
+                        currentState.copy(
+                            isLoading = false,
+                            error = "Les données sont indisponibles"
+                        )
+                    }
+                }
+            )
         }
     }
 }

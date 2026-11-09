@@ -21,8 +21,13 @@ object MangaRepository {
 
     }
 
-    suspend fun getMangaDetail(id: Int): MangaCard{
-        return networkService.getMangaDetail(id)
+    suspend fun getMangaDetail(id: Int): Result<MangaCard>{
+        try {
+            return Result.success(networkService.getMangaDetail(id))
+        } catch (e: Exception) {
+            Log.e("getMangaDetail", e.toString())
+            return Result.failure(e)
+        }
     }
 
 }
